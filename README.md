@@ -54,6 +54,6 @@
 - **Build and deployment pipelines:** How you create a repeatable build and deployment process that emphasizes one-button builds and deployment to any environment in your organization.
 - **Infrastructure as code:** How you treat the provisioning of your services as code that can be executed and managed under source control.
 - **Immutable servers:** Once a microservice image is created, how you ensure that it’s never changed after it has been deployed.
-- **Phoenix servers:** How you ensure that servers that run individual containers get torn down on a regular basis and re-created from an immutable image. The longer a server is running, the more opportunity there is for configuration drift[1]. A configuration drift can occur when ad hoc changes to a system configuration are unrecorded.
+- **Phoenix servers:** How you ensure that servers that run individual containers get torn down on a regular basis and re-created from an immutable image. The longer a server is running, the more opportunity there is for configuration drift [1]. A configuration drift can occur when ad hoc changes to a system configuration are unrecorded.
 
 **[1] Note ~ Configuration Drift:** It refers to an environment in which running clusters in an infrastructure become increasingly different over time, usually due to manual changes and updates on individual clusters.
