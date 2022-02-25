@@ -57,3 +57,29 @@
 - **Phoenix servers:** How you ensure that servers that run individual containers get torn down on a regular basis and re-created from an immutable image. The longer a server is running, the more opportunity there is for configuration drift [1]. A configuration drift can occur when ad hoc changes to a system configuration are unrecorded.
 
 **[1] Note ~ Configuration Drift:** It refers to an environment in which running clusters in an infrastructure become increasingly different over time, usually due to manual changes and updates on individual clusters.
+
+
+## Chapter 2: Exploring the microservices world with Spring Cloud ##
+
+### Spring Cloud Congfig
+- Spring Cloud Config handles the management of the application configuration data through a centralized service. Your application configuration data (particularly your environment-specific configuration data) is then cleanly separated from your deployed microservice. This ensures that no matter how many microservice instances you bring up, they’ll always have the same configuration. Spring Cloud Config has its own property management repository but also integrates with open source projects like Git.
+
+### Spring Cloud Service Discovery
+- With Spring Cloud Service Discovery, you can abstract away the physical location (IP and/or server name) of where your servers are deployed from the clients consuming the service. Service consumers invoke business logic for the servers through a logical name rather than a physical location. Spring Cloud Service Discovery also handles the registration and deregistration of service instances as these are started and shut down.
+
+### Spring Cloud LoadBalancer and Resilience4j
+- By using the Resilience4j libraries, you can quickly implement service client resiliency patterns such as circuit breaker, retry, bulkhead, and more.
+While the Spring Cloud LoadBalancer project simplifies integrating with service discovery agents such as Eureka, it also provides client-side load balancing of calls from a service consumer. This makes it possible for a client to continue making service calls even if the service discovery agent is temporarily unavailable.
+
+### Spring Cloud API Gateway
+- Like the name says, it is a service gateway that proxies service requests and makes sure that all calls to your microservices go through a single “front door” before the targeted service is invoked. With this centralization of service calls, you can enforce standard service policies such as security authorization, authentication, content filtering, and routing rules.
+
+### Spring Cloud Stream
+- Spring Cloud Stream is an enabling technology that lets you easily integrate lightweight message processing into your micro-service. Using Spring Cloud Stream, you can build intelligent microservices that use asynchronous events as these occur in your application. You can also quickly integrate your microservices with message brokers such as RabbitMQ and Kafka.
+
+### Spring Cloud Sleuth
+- Spring Cloud Sleuth lets you integrate unique tracking identifiers into the HTTP calls and message channels (RabbitMQ, Apache Kafka) used within your application. These tracking numbers, sometimes referred to as correlation or trace IDs, allow you to track a transaction as it flows across the different services in your application. With Spring Cloud Sleuth, trace IDs are automatically added to any logging statements you make in your microservice.
+The real beauty of Spring Cloud Sleuth is seen when it’s combined with logging-aggregation technology tools like the ELK Stack (Elastic Search, Logstash and Kibana Stack) and tracking tools like Zipkin. Open Zipkin takes data produced by Spring Cloud Sleuth and allows you to visualize the flow of your service calls involved for a single transaction.
+
+### Spring Cloud Security
+- Spring Cloud Security is an authentication and authorization framework that controls who can access your services and what they can do with them. Because Spring Cloud Security is token-based, it allows services to communicate with one another through a token issued by an authentication server. Each service receiving an HTTP call can check the provided token to validate the user’s identity and their access rights. Spring Cloud Security also supports JSON Web Tokens (JWT). JWT standardizes the format for creating an OAuth2 token and normalizes digital signatures for a generated token.
