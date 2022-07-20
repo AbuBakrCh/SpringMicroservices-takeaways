@@ -83,3 +83,49 @@ The real beauty of Spring Cloud Sleuth is seen when it’s combined with logging
 
 ### Spring Cloud Security
 - Spring Cloud Security is an authentication and authorization framework that controls who can access your services and what they can do with them. Because Spring Cloud Security is token-based, it allows services to communicate with one another through a token issued by an authentication server. Each service receiving an HTTP call can check the provided token to validate the user’s identity and their access rights. Spring Cloud Security also supports JSON Web Tokens (JWT). JWT standardizes the format for creating an OAuth2 token and normalizes digital signatures for a generated token.
+
+## Chapter 3: Building microservices with Spring Boot ##
+
+We can see the four potential microservices based on the following elements:
+* Assets
+* License
+* Contract
+* Organization
+
+The goal is to take these major pieces of functionality and extract them into entirely self-contained units that we can build and deploy independently of each other. **These units can optionally share or have individual databases.** However, extracting services from the data model involves more than repackaging code into separate projects. It also involves teasing out the actual database tables the services will access and only allowing each service to access the tables in its specific domain.
+
+What is the right level of granularity?
+It’s better to start broad with our microservice and refactor to smaller services -> It is easy to go overboard when you begin your microservice journey and make everything a microservice. But decomposing the problem domain into small services often leads to premature complexity because microservices devolve into nothing more than fine-grained data services.
+
+### If a microservice is too coarse-grained, you’ll likely see the following:
+**A service with too many responsibilities:**
+The general flow of the business logic in the service is complicated and seems to be enforcing an overly diverse array of rules.
+
+**A service that manages data across a large number of tables:**
+A microservice is the record for the data it manages. If you find yourself persisting data to multiple tables or reaching out to tables outside of the service database, this is a clue that the service is too big. We like to use the guideline that a microservice should own no more than three to five tables. Any more, and your service is likely to have too much responsibility.
+
+**A service with too many test cases:**
+Services can grow in size and responsibility over time. If you have a service that started with a small number of test cases and ended up with hundreds of unit and integration tests, you might need to refactor.
+
+### What about a microservice that’s too fine-grained?
+**The microservices in one part of the problem domain breed like rabbits:**
+If everything becomes a microservice, composing business logic out of the services becomes complex and difficult. That’s because the number of services needed to get a piece of work done grows tremendously. A common smell is when you have doz- ens of microservices in an application, and each service interacts with only a single database table.
+
+**Your microservices are heavily interdependent on one another:**
+You find that microservices in one part of the problem domain keep calling back and forth between each other to complete a single user request.
+
+**Your microservices become a collection of simple CRUD (Create, Replace, Update, Delete) services:**
+Microservices are an expression of business logic and not an abstraction layer over your data sources. If your microservices do nothing but CRUD- related logic, they’re probably too fine-grained.
+
+### When not to use microservices
+**Complexity when building distributed systems**
+Because microservices are distributed and fine-grained (small), these introduce a level of complexity into your application that’s not found in more monolithic applications. Microservice architectures require a high degree of operational maturity. Don’t consider using microservices unless your organization is willing to invest in the automation and operational work (monitoring, scaling, and so on) that a highly distributed application needs to be successful.
+
+**Server or container sprawl**
+One of the most common deployment models for microservices is to have one microservice instance deployed in one container. In a large microservice-based application, you might end up with 50 to 100 servers or containers (usually virtual) that must be built and maintained in production alone. Even with the lower cost of running these services in the cloud, the operational complexity of managing and monitoring these services can be tremendous.
+
+**Application type**
+Microservices are geared toward reusability and are extremely useful for building large applications that need to be highly resilient and scalable. This is one of the reasons why so many cloud-based companies have adopted microservices. If you’re building small, departmental-level applications, or applications with a small user base, the complexity associated with building a distributed model like a microservice might generate more expense than it’s worth.
+
+**Data transactions and consistency**
+If your application needs to do complex data aggregation or transformation across multiple data sources, the distributed nature of microservices will make this work difficult. Your microservices will invariably take on too much responsibility and can also become vulnerable to performance problems.
