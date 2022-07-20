@@ -118,14 +118,14 @@ You find that microservices in one part of the problem domain keep calling back 
 Microservices are an expression of business logic and not an abstraction layer over your data sources. If your microservices do nothing but CRUD- related logic, they’re probably too fine-grained.
 
 ### When not to use microservices
-**Complexity when building distributed systems**
+**Complexity when building distributed systems:**
 Because microservices are distributed and fine-grained (small), these introduce a level of complexity into your application that’s not found in more monolithic applications. Microservice architectures require a high degree of operational maturity. Don’t consider using microservices unless your organization is willing to invest in the automation and operational work (monitoring, scaling, and so on) that a highly distributed application needs to be successful.
 
-**Server or container sprawl**
+**Server or container sprawl:**
 One of the most common deployment models for microservices is to have one microservice instance deployed in one container. In a large microservice-based application, you might end up with 50 to 100 servers or containers (usually virtual) that must be built and maintained in production alone. Even with the lower cost of running these services in the cloud, the operational complexity of managing and monitoring these services can be tremendous.
 
-**Application type**
+**Application type:**
 Microservices are geared toward reusability and are extremely useful for building large applications that need to be highly resilient and scalable. This is one of the reasons why so many cloud-based companies have adopted microservices. If you’re building small, departmental-level applications, or applications with a small user base, the complexity associated with building a distributed model like a microservice might generate more expense than it’s worth.
 
-**Data transactions and consistency**
+**Data transactions and consistency:**
 If your application needs to do complex data aggregation or transformation across multiple data sources, the distributed nature of microservices will make this work difficult. Your microservices will invariably take on too much responsibility and can also become vulnerable to performance problems.
