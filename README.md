@@ -95,7 +95,7 @@ We can see the four potential microservices based on the following elements:
 The goal is to take these major pieces of functionality and extract them into entirely self-contained units that we can build and deploy independently of each other. **These units can optionally share or have individual databases.** However, extracting services from the data model involves more than repackaging code into separate projects. It also involves teasing out the actual database tables the services will access and only allowing each service to access the tables in its specific domain.
 
 What is the right level of granularity?
-It’s better to start broad with our microservice and refactor to smaller services -> It is easy to go overboard when you begin your microservice journey and make everything a microservice. But decomposing the problem domain into small services often leads to premature complexity because microservices devolve into nothing more than fine-grained data services.
+It’s better to start broad with our microservice and refactor to smaller services -> It is easy to go overboard when you begin your microservice journey and make everything a microservice. But decomposing the problem domain into small services often leads to premature complexity because microservices devolve into nothing more than fine-grained data services. Futhermore, It’s easier to refactor from being too coarse-grained to being too fine-grained. 
 
 ### If a microservice is too coarse-grained, you’ll likely see the following:
 **A service with too many responsibilities:**
@@ -129,3 +129,33 @@ Microservices are geared toward reusability and are extremely useful for buildin
 
 **Data transactions and consistency:**
 If your application needs to do complex data aggregation or transformation across multiple data sources, the distributed nature of microservices will make this work difficult. Your microservices will invariably take on too much responsibility and can also become vulnerable to performance problems.
+
+### The architect’s story: designing the microservice architecture
+When building a microservices architecture, a project’s architect focuses on three key tasks:
+- Decomposing the business problem
+- Establishing service granularity
+- Defining the service interfaces
+
+#### Decomposing the business problem
+##### Use the following guidelines for identifying and decomposing a business problem into microservice candidates:
+- Describe the business problem, and listen to the nouns you’re using to describe the problem. Using the same nouns over and over in describing the problem is usually an indication of a core business domain and an opportunity for a microservice. Examples of target nouns for the EagleEye domain from chapter 1 might look
+something like contracts, licenses, and assets.
+- Pay attention to the verbs. Verbs highlight actions and often represent the natural contours of a problem domain. If you find yourself saying “transaction X needs to get data from thing A and thing B,” that usually indicates that multiple services are at play. If you apply to EagleEye the approach of watching for verbs, you might look for statements such as, “When Mike from desktop services is setting up a new PC, he looks up the number of licenses available for software X
+and, if licenses are available, installs the software. He then updates the number of licenses used in his tracking spreadsheet.” The key verbs here are looks and
+updates.
+- Look for data cohesion. As you break apart your business problem into discrete pieces, look for pieces of data that are highly related to one another. If suddenly, during the course of your conversation, you’re reading or updating data that’s radically different from what you’ve been discussing so far, you potentially have another service candidate. Microservices should completely own their data.
+
+#### Establishing service granularity
+The goal is to take major pieces of functionality and extract them into completely self-contained units that can be built and deployed independently of each
+other. But extracting services from the data model involves more than repackaging code into separate projects. It’s also about teasing out the actual database tables the services are accessing and only allowing each individual service to access the tables in its specific domain. Figure 2.3 shows how the application code and the data model become “chunked” into individual pieces.
+
+![image](https://github.com/AbuBakrCh/SpringMicroservices-takeaways/assets/12198146/1ea1c96f-721c-44c6-8fb5-03f7dc3b5712)
+
+A microservices architecture should be developed with an evolutionary thought process where you know that you aren’t going to get the design right the first time. That’s why it’s better to start with your first set of services being more coarse-grained than fine-grained. It’s also important not to be dogmatic with your design. You may run into physical constraints on your services where you’ll need to make an aggregation service that joins data together because two separate services will be too chatty, or where no clear boundaries exist between the domain lines of a service. In the end, take a pragmatic approach and deliver, rather than waste time trying to get the design perfect and then have nothing to show for your effort.
+
+#### Talking to one another: service interfaces
+In general, the following guidelines can be used for thinking about service interface design:
+- Embrace the REST philosophy—The REST approach to services is at heart the embracing of HTTP as the invocation protocol for the services and the use of standard HTTP verbs (GET, PUT, POST, and DELETE). Model your basic behaviors around these HTTP verbs.
+- Use URI’s to communicate intent—The URI you use as endpoints for the service should describe the different resources in your problem domain and provide a basic mechanism for relationships of resources within your problem domain.
+- Use JSON for your requests and responses—JavaScript Object Notation (in other words, JSON) is an extremely lightweight data-serialization protocol and is much easier to consume then XML.
+- Use HTTP status codes to communicate results—The HTTP protocol has a rich body of standard response codes to indicate the success or failure of a service. Learn these status codes and most importantly use them consistently across all your services.
